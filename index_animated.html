@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>I Love You Niv ❤️</title>
+<style>
+body{margin:0;overflow:hidden;background:#000;height:100vh}
+canvas{display:block}
+</style>
+</head>
+<body>
+<canvas id="heart"></canvas>
+<script>
+const canvas=document.getElementById("heart");
+const ctx=canvas.getContext("2d");
+
+function resize(){
+  canvas.width=innerWidth;
+  canvas.height=innerHeight;
+}
+resize();
+addEventListener("resize",resize);
+
+function heart(t){
+  return {
+    x:16*Math.pow(Math.sin(t),3),
+    y:13*Math.cos(t)-5*Math.cos(2*t)-2*Math.cos(3*t)-Math.cos(4*t)
+  };
+}
+
+let time=0;
+
+function draw(){
+  ctx.fillStyle="rgba(0,0,0,0.18)";
+  ctx.fillRect(0,0,canvas.width,canvas.height);
+
+  const base=Math.min(canvas.width,canvas.height)/38;
+  const pulse=1+Math.sin(time)*0.07;
+
+  ctx.fillStyle="#ffb6c1";
+  ctx.font="bold 11px Arial";
+  ctx.textAlign="center";
+  ctx.textBaseline="middle";
+
+  for(let s=0.78;s<=1.08;s+=0.05){
+    for(let i=0;i<120;i++){
+      const t=i*Math.PI*2/120;
+      const p=heart(t);
+      const x=canvas.width/2+p.x*base*s*pulse;
+      const y=canvas.height/2-p.y*base*s*pulse;
+      ctx.fillText("I love you Niv",x,y);
+    }
+  }
+
+  time+=0.045;
+  requestAnimationFrame(draw);
+}
+
+draw();
+</script>
+</body>
+</html>
